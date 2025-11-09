@@ -1,14 +1,3 @@
-local root_files = {
-  '.luarc.json',
-  '.luarc.jsonc',
-  '.luacheckrc',
-  '.stylua.toml',
-  'stylua.toml',
-  'selene.toml',
-  'selene.yml',
-  '.git',
-}
-
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -67,32 +56,6 @@ return {
           vim.g.zig_fmt_parse_errors = 0
           vim.g.zig_fmt_autosave = 0
 
-        end,
-        ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                format = {
-                  enable = true,
-                  -- Put format options here
-                  -- NOTE: the value should be STRING!!
-                  defaultConfig = {
-                    indent_style = "space",
-                    indent_size = "2",
-                  }
-                },
-              }
-            }
-          }
-        end,
-        ["tailwindcss"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.tailwindcss.setup({
-            capabilities = capabilities,
-            filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte", "heex" },
-          })
         end,
       }
     })
