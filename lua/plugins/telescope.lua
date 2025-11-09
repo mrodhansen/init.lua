@@ -1,4 +1,6 @@
-return {
+vim.keymap.set("n", "<leader>gs", function()
+    require('neogit').open()
+end, {desc = '[G]it [S]tatus'})eturn {
     {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.8",
@@ -7,10 +9,10 @@ return {
             -- Set space as the leader key
             vim.g.mapleader = ' '
             vim.g.maplocalleader = ' '
-            
+
             -- Load telescope builtin functions
             local builtin = require("telescope.builtin")
-            
+
             -- Map keybindings to match your old config
             vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
             vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -23,7 +25,7 @@ return {
 
             vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
             vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-            
+
             -- Special search in current buffer with dropdown
             vim.keymap.set('n', '<leader>/', function()
                 builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -31,7 +33,7 @@ return {
                     previewer = false,
                 })
             end, { desc = '[/] Fuzzily search in current buffer' })
-            
+
             -- Search in open files
             vim.keymap.set('n', '<leader>s/', function()
                 builtin.live_grep {
@@ -39,12 +41,12 @@ return {
                     prompt_title = 'Live Grep in Open Files',
                 }
             end, { desc = '[S]earch [/] in Open Files' })
-            
+
             -- Search in Neovim config files
             vim.keymap.set('n', '<leader>sn', function()
                 builtin.find_files { cwd = vim.fn.stdpath 'config' }
             end, { desc = '[S]earch [N]eovim files' })
-            
+
             -- Function for searching and scoping into a directory (keep this from your current config)
             function search_and_scope_into_directory()
                 builtin.find_files({
@@ -52,7 +54,7 @@ return {
                     find_command = {"fd", "--type", "d", "--hidden", "--follow"},
                     attach_mappings = function(prompt_bufnr, map)
                         local actions = require("telescope.actions")
-                        
+
                         -- Default action: cd into selected directory
                         actions.select_default:replace(function()
                             local selection = require("telescope.actions.state").get_selected_entry()
@@ -61,12 +63,12 @@ return {
                             actions.close(prompt_bufnr)
                             vim.schedule(search_and_scope_into_directory)
                         end)
-                        
+
                         -- Ctrl-h: Go up one directory (cd ..)
                         map("i", "<C-BS>", function()
                             local current_cwd = vim.fn.getcwd()
                             local parent_dir = vim.fn.fnamemodify(current_cwd, ":h")
-                            
+
                             -- Prevent going above filesystem root
                             if parent_dir ~= current_cwd then
                                 vim.cmd("cd " .. parent_dir)
@@ -77,12 +79,12 @@ return {
                                 print("Already at filesystem root")
                             end
                         end)
-                        
+
                         -- Also map for normal mode
                         map("n", "<C-BS>", function()
                             local current_cwd = vim.fn.getcwd()
                             local parent_dir = vim.fn.fnamemodify(current_cwd, ":h")
-                            
+
                             if parent_dir ~= current_cwd then
                                 vim.cmd("cd " .. parent_dir)
                                 actions.close(prompt_bufnr)
@@ -91,16 +93,16 @@ return {
                                 print("Already at filesystem root")
                             end
                         end)
-                        
+
                         -- Optional: Ctrl-g to show current working directory
                         map("i", "<C-g>", function()
                             print("Current directory: " .. vim.fn.getcwd())
                         end)
-                        
+
                         map("n", "<C-g>", function()
                             print("Current directory: " .. vim.fn.getcwd())
                         end)
-                        
+
                         return true
                     end,
                 })
