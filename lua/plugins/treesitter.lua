@@ -1,6 +1,4 @@
-vim.keymap.set("n", "<leader>gs", function()
-    require('neogit').open()
-end, {desc = '[G]it [S]tatus'})eturn {
+return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()

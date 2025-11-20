@@ -1,5 +1,7 @@
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = '[P]roject [V]'})
 vim.keymap.set("n", "<leader>pc", vim.cmd.bd, {desc = '[P]roject [C]lose Buffer'})
+vim.keymap.set("n", "j", "k")
+vim.keymap.set("n", "k", "j")
 
 vim.keymap.set("n", "<leader>gs", function()
     require('neogit').open()
